@@ -1,6 +1,4 @@
-"""
-!pip install -q groq gradio
-"""
+
 
 from groq import Groq
 import gradio as gr
@@ -40,10 +38,9 @@ def start_exam(email: str, name: str) -> dict:
         }
 
     if email not in STUDENTS_DB:
-        return {
-            "success": False,
-            "message": f"Студента {email} не знайдено в базі.\n\nДоступні студенти:\n" +
-                       "\n".join([f"• {e}" for e in list(STUDENTS_DB.keys())[:3]])
+        STUDENTS_DB[email] = {
+            "name": name,
+            "active": True
         }
 
     student_info = STUDENTS_DB[email]
@@ -629,7 +626,7 @@ def create_interface():
 if __name__ == "__main__":
     demo = create_interface()
     demo.launch(
-        share=True,
+        # share=True,
         debug=True,
         show_error=True
     )
